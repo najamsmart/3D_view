@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>KeyShotXR</title>
+  <style type="text/css">
+    body { -ms-touch-action: none; margin: 0; padding: 0; }
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+    }
+    .button {
+      padding: 10px;
+      margin: 5px;
+      background: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .button:hover {
+      background: #555;
+    }
+    #fullscreen-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+  </style>
+  <script type="text/javascript" src="second.78/files/KeyShotXR.js"></script>
+  <script type="text/javascript">
+    var keyshotXR;
+
+    function initKeyShotXR() {
+      var nameOfDiv = "KeyShotXR";
+      var folderName = "second.78";
+      var viewPortWidth = 1227;
+      var viewPortHeight = 678;
+      var backgroundColor = "#FFFFFF";
+      var uCount = 30;
+      var vCount = 20;
+      var uWrap = true;
+      var vWrap = false;
+      var uMouseSensitivity = -0.0833333;
+      var vMouseSensitivity = 0.125;
+      var uStartIndex = 15;
+      var vStartIndex = 11;
+      var minZoom = 1;
+      var maxZoom = 1;
+      var rotationDamping = 0.96;
+      var downScaleToBrowser = true;
+      var addDownScaleGUIButton = false;
+      var downloadOnInteraction = false;
+      var imageExtension = "jpg";
+      var showLoading = true;
+      var loadingIcon = "ks_logo.png"; // Set to empty string for default icon.
+      var allowFullscreen = true; // Double-click in desktop browsers for fullscreen.
+      var uReverse = false;
+      var vReverse = false;
+      var hotspots = {};
+      var isIBooksWidget = false;
+
+      keyshotXR = new keyshotXR(nameOfDiv, folderName, viewPortWidth, viewPortHeight, backgroundColor, uCount, vCount, uWrap, vWrap, uMouseSensitivity, vMouseSensitivity, uStartIndex, vStartIndex, minZoom, maxZoom, rotationDamping, downScaleToBrowser, addDownScaleGUIButton, downloadOnInteraction, imageExtension, showLoading, loadingIcon, allowFullscreen, uReverse, vReverse, hotspots, isIBooksWidget);
+
+      // Add mouse wheel event listener for zooming
+      document.addEventListener('wheel', handleMouseWheel);
+    }
+
+    function handleMouseWheel(event) {
+      if (!keyshotXR) return;
+      var zoomDelta = event.deltaY > 0 ? 1 / 1.1 : 1.1;
+      var currentZoom = keyshotXR.getZoom();
+      var newZoom = currentZoom * zoomDelta;
+
+      // Assuming KeyShotXR has a method to get and set zoom levels
+      keyshotXR.setZoom(newZoom);
+
+      // Prevent default scrolling behavior
+      event.preventDefault();
+    }
+
+    function toggleFullscreen() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    }
+
+    window.onload = initKeyShotXR;
+  </script>
+</head>
+<body oncontextmenu="return false;">
+  <div id="KeyShotXR"></div>
+  <button id="fullscreen-toggle" class="button" onclick="toggleFullscreen()">Fullscreen</button>
+</body>
+</html>
